@@ -1,25 +1,64 @@
---- NEURO-LOGIC: AI DIAGNOSTIC ---
-Enter your name: shahreen zameer
+import time
+import os
 
-1. Prefer (a) math puzzles or (b) creative stories? (a/b): b
-2. Coding style: (a) Plan first or (b) Jump in? (a/b): a
+def get_report_path():
+    # This solves the [Errno 13] Permission denied error on Android
+    # by using the app's internal home directory.
+    return os.path.join(os.path.expanduser("~"), "mbzuai_psych_report.txt")
 
-3. View of AI: (a) High-risk/Extreme or (b) Useful tool? (a/b): b
+def start_assessment():
+    os.system('clear')
+    print("==============================================")
+    print("   🧠 NEURO-LOGIC v2.0 | MBZUAI PORTFOLIO   ")
+    print("==============================================\n")
+    
+    name = input("Enter Candidate Name: ")
+    
+    questions = [
+        "1. Prefer (a) math puzzles or (b) creative stories?",
+        "2. Coding style: (a) Plan first or (b) Jump in?",
+        "3. View of AI: (a) High-risk/Extreme or (b) Useful tool?",
+        "4. Knowledge: (a) Want to know future or (b) Surprise?",
+        "5. Role: (a) Data Organizer or (b) Strategic Visionary?",
+        "6. Wins: (a) Small/Guaranteed or (b) Big/Risky?",
+        "7. World view: (a) Numbers or (b) Experiences?",
+        "8. Preference: (a) Optimize old or (b) Build new?"
+    ]
 
-4. Knowledge: (a) Want to know future or (b) Surprise? (a/b): b
+    score_a = 0
+    for q in questions:
+        print("\n" + q)
+        ans = input("Your choice (a/b): ").lower()
+        while ans not in ['a', 'b']:
+            ans = input("Error: Please type 'a' or 'b': ").lower()
+        if ans == 'a': score_a += 1
 
-5. Role: (a) Data Organizer or (b) Visionary? (a/b): a
+    print("\n[RUNNING HEURISTIC CLASSIFICATION...]")
+    time.sleep(2)
 
-6. Wins: (a) Small/Guaranteed or (b) Big/Risky? (a/b): b
+    # Logic to decide the profile
+    if score_a >= 6:
+        profile = "THE PRECISION ANALYST"
+        desc = "Focuses on high-accuracy and logical consistency."
+    elif score_a <= 2:
+        profile = "THE DISRUPTIVE INNOVATOR"
+        desc = "Focuses on high-risk, creative problem solving."
+    else:
+        profile = "THE ADAPTIVE ENGINEER"
+        desc = "Balances logical structure with creative adaptation."
 
-7. World view: (a) Numbers or (b) Experiences? (a/b): b
+    print(f"\nFINAL DIAGNOSIS: {profile}")
+    print(f"Analysis: {desc}")
 
-8. Preference: (a) Optimize old or (b) Build new? (a/b): a
+    # Save to file safely
+    try:
+        path = get_report_path()
+        with open(path, "a") as f:
+            f.write(f"Name: {name} | Result: {profile}\n")
+        print(f"\n✅ Report securely saved to: {path}")
+    except Exception as e:
+        print(f"\n❌ Logging failed: {e}")
 
-[ANALYZING LOGIC PATTERNS...]
-
-RESULT for shahreen zameer: THE ADAPTIVE ENGINEER
-
-⚠️ Note: Results displayed but not saved to file.
-
-[Program finished]
+if __name__ == "__main__":
+    start_assessment()
+      
